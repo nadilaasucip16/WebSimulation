@@ -1,0 +1,59 @@
+databases:
+  - name: websimulation-db
+    databaseName: websimulation
+    user: websimulation
+    plan: free
+
+services:
+  - type: web
+    name: websimulation
+    env: php
+    plan: free
+    buildCommand: "./render-build.sh"
+    startCommand: "php artisan migrate --force && php artisan storage:link 2>/dev/null; php artisan serve --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: APP_NAME
+        value: OOP Learn
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_KEY
+        value: base64:vO/S6Gr1WVKQvdIa76lgXH3fjGzE2qC6QHgyf6AwJcY=
+      - key: APP_URL
+        fromService:
+          type: web
+          name: websimulation
+          property: host
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        fromDatabase:
+          name: websimulation-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: websimulation-db
+          property: port
+      - key: DB_DATABASE
+        fromDatabase:
+          name: websimulation-db
+          property: database
+      - key: DB_USERNAME
+        fromDatabase:
+          name: websimulation-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: websimulation-db
+          property: password
+      - key: SESSION_DRIVER
+        value: database
+      - key: CACHE_STORE
+        value: database
+      - key: QUEUE_CONNECTION
+        value: sync
+      - key: FILESYSTEM_DISK
+        value: public
+      - key: LOG_CHANNEL
+        value: stderr
