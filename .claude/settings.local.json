@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(cd \"d:\\\\Skripsi\\\\WebSimulation\"; php artisan tinker --execute=\"\\\\App\\\\Models\\\\User::all\\(\\)->each\\(function\\(\\\\$u\\){ if\\(!str_starts_with\\(\\\\$u->password, '\\\\$2y\\\\$'\\) && !str_starts_with\\(\\\\$u->password, '\\\\$2b\\\\$'\\) && !str_starts_with\\(\\\\$u->password, '\\\\$argon'\\)\\){ echo \\\\$u->email . ' => ' . \\\\$u->password . PHP_EOL; } }\\);\")",
+      "PowerShell(cd \"d:\\\\Skripsi\\\\WebSimulation\"; php artisan tinker --execute=\"App\\\\Models\\\\User::whereRaw\\('password NOT LIKE ?', ['$2%']\\)->pluck\\('email', 'id'\\);\")",
+      "Skill(code-review)",
+      "Skill(code-review:*)",
+      "Bash(xargs cat)",
+      "Bash(php artisan *)",
+      "Bash(php -l routes/web.php)"
+    ]
+  }
+}

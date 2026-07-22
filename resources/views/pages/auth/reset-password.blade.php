@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Password - Media Pembelajaran OOP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #e5e7eb; }
+    </style>
+</head>
+
+<body class="min-h-screen flex items-center justify-center p-4">
+
+<div class="bg-white rounded-3xl shadow-xl overflow-hidden w-full max-w-5xl flex flex-col md:flex-row">
+
+    {{-- GAMBAR (kiri) --}}
+    <div class="hidden md:flex md:w-1/2 items-center justify-center bg-white p-10">
+        <img
+            src="{{ asset('build/assets/image 1.png') }}"
+            alt="Ilustrasi"
+            class="w-full max-w-md">
+    </div>
+
+    {{-- FORM (kanan) --}}
+    <div class="w-full md:w-1/2 px-8 py-10 md:px-14 md:py-16">
+
+        {{-- Header --}}
+        <div class="mb-8 text-center md:text-left">
+            <div class="flex items-center gap-3 mb-3">
+                <div class="w-11 h-11 rounded-xl bg-green-100 flex items-center justify-center text-xl">
+                    🔒
+                </div>
+                <h1 class="text-3xl font-bold text-gray-900">Reset Password</h1>
+            </div>
+            <p class="text-gray-500 text-sm leading-relaxed">
+                Masukkan password baru kamu di bawah ini untuk mengatur ulang akses akun.
+            </p>
+        </div>
+
+        {{-- Status --}}
+        @if (session('status'))
+            <div class="mb-6 flex items-start gap-3 rounded-xl bg-green-50 border border-green-200 px-4 py-3 text-sm text-green-700">
+                <svg class="w-4 h-4 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                {{ session('status') }}
+            </div>
+        @endif
+
+        {{-- Form --}}
+        <form method="POST" action="{{ route('password.update') }}" class="space-y-5">
+            @csrf
+            <input type="hidden" name="token" value="{{ request()->route('token') }}">
+
+            {{-- Email --}}
+            <div>
+                <label for="email" class="block mb-1.5 font-semibold text-gray-700 text-sm">Email</label>
+                <div class="relative">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">📧</span>
+                    <input
+                        id="email"
+                        type="email"
+                        name="email"
+                        value="{{ request('email') }}"
+                        required
+                        autocomplete="email"
+                        class="w-full rounded-xl border-2 border-gray-300 pl-12 pr-4 py-3 text-gray-900
+                               focus:border-green-600 focus:outline-none transition-colors">
+                </div>
+                @error('email')
+                    <p class="mt-2 text-sm text-red-500">{{ $message }}</p>
+                @enderror
+            </div>
+
+            {{-- Password baru --}}
+            <div>
+                <label for="password" class="block mb-1.5 font-semibold text-gray-700 text-sm">Password Baru</label>
+                <div class="relative">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">🔑</span>
+                    <input
+                        id="password"
+                        type="password"
+                        name="password"
+                        placeholder="Masukkan password baru"
+                        required
+                        autocomplete="new-password"
+                        class="w-full rounded-xl border-2 border-gray-300 pl-12 pr-4 py-3 text-gray-900
+                               focus:border-green-600 focus:outline-none transition-colors">
+                </div>
+                @error('password')
+                    <p class="mt-2 text-sm text-red-500">{{ $message }}</p>
+                @enderror
+            </div>
+
+            {{-- Konfirmasi password --}}
+            <div>
+                <label for="password_confirmation" class="block mb-1.5 font-semibold text-gray-700 text-sm">Konfirmasi Password</label>
+                <div class="relative">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">🔑</span>
+                    <input
+                        id="password_confirmation"
+                        type="password"
+                        name="password_confirmation"
+                        placeholder="Ulangi password baru"
+                        required
+                        autocomplete="new-password"
+                        class="w-full rounded-xl border-2 border-gray-300 pl-12 pr-4 py-3 text-gray-900
+                               focus:border-green-600 focus:outline-none transition-colors">
+                </div>
+                @error('password_confirmation')
+                    <p class="mt-2 text-sm text-red-500">{{ $message }}</p>
+                @enderror
+            </div>
+
+            {{-- Submit --}}
+            <button
+                type="submit"
+                class="w-full rounded-xl bg-green-600 py-3 text-base font-bold tracking-wide text-white
+                       transition hover:bg-green-700 shadow-md flex items-center justify-center gap-2">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                Simpan Password Baru
+            </button>
+
+        </form>
+
+    </div>
+</div>
+
+</body>
+</html>
