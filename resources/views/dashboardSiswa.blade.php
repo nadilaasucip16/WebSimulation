@@ -27,65 +27,87 @@
         <div class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
 
             {{-- Welcome Header --}}
-            <div class="bg-white rounded-xl border border-gray-200 p-6 mb-6">
-                <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-                    <div class="flex-1 min-w-0">
-                        <p class="text-xs text-gray-500 font-medium mb-1">Selamat datang kembali</p>
-                        <h2 class="text-xl lg:text-2xl font-bold text-gray-900 leading-tight">
-                            {{ auth()->user()->name ?? 'Siswa' }}
-                        </h2>
-                        <p class="text-gray-500 text-sm mt-1.5 leading-relaxed">
-                            Teruslah belajar dan tingkatkan pemahamanmu tentang
-                            <span class="font-medium text-gray-700">Pemrograman Berorientasi Objek</span>.
-                        </p>
-                    </div>
-                    <div class="shrink-0 text-center px-6 py-3 bg-gray-50 rounded-lg border border-gray-200 min-w-[7rem]">
-                        <p class="text-xs text-gray-500 font-medium mb-1">Progress</p>
-                        <p class="text-3xl font-black text-gray-900 leading-none">{{ $progressPct }}%</p>
-                        <p class="text-[11px] text-gray-400 mt-1">{{ $totalDone }} / 15 Fase</p>
-                    </div>
-                </div>
+            <div class="relative rounded-2xl overflow-hidden mb-6"
+                 style="background: linear-gradient(135deg, #16a34a 0%, #15803d 40%, #166534 100%);">
+                {{-- Decorative circles --}}
+                <div class="absolute -top-8 -right-8 w-40 h-40 rounded-full opacity-10" style="background:white"></div>
+                <div class="absolute -bottom-10 -left-10 w-52 h-52 rounded-full opacity-10" style="background:white"></div>
+                <div class="absolute top-4 right-32 w-20 h-20 rounded-full opacity-5" style="background:white"></div>
 
-                <div class="mt-5">
-                    <div class="flex items-center justify-between text-xs text-gray-500 mb-1.5">
-                        <span>Progress Pembelajaran (3 Pertemuan)</span>
-                        <span class="font-semibold text-gray-700">{{ $progressPct }}%</span>
-                    </div>
-                    <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
-                        <div class="h-full bg-green-500 rounded-full transition-all duration-500"
-                             style="width: {{ $progressPct }}%"></div>
-                    </div>
-                </div>
+                <div class="relative p-6 sm:p-8">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+                        <div class="flex-1 min-w-0">
+                            <p class="text-green-200 text-xs font-medium mb-1 tracking-wide uppercase">Selamat datang kembali</p>
+                            <h2 class="text-2xl lg:text-3xl font-extrabold text-white leading-tight mb-2">
+                                {{ auth()->user()->name ?? 'Siswa' }} 👋
+                            </h2>
+                            <p class="text-green-100 text-sm leading-relaxed opacity-90">
+                                Teruslah belajar dan tingkatkan pemahamanmu tentang<br>
+                                <span class="font-semibold text-white">Pemrograman Berorientasi Objek</span>.
+                            </p>
 
-                <div class="mt-4">
-                    @if($totalDone >= 15)
-                        <a href="{{ route('grade') }}"
-                           class="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition">
-                            Lihat Hasil Belajar →
-                        </a>
-                    @elseif($totalDone === 0)
-                        <a href="{{ route('fase1') }}"
-                           class="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition">
-                            Mulai Belajar →
-                        </a>
-                    @else
-                        @php
-                            if (!$p2Unlocked) {
-                                $lanjutRoute = route('fase' . ($p1Done + 1));
-                                $lanjutLabel = 'Lanjutkan Pertemuan 1 · Fase ' . ($p1Done + 1);
-                            } elseif (!$p3Unlocked) {
-                                $lanjutRoute = route('p2.fase' . ($p2Done + 1));
-                                $lanjutLabel = 'Lanjutkan Pertemuan 2 · Fase ' . ($p2Done + 1);
-                            } else {
-                                $lanjutRoute = route('p3.fase' . ($p3Done + 1));
-                                $lanjutLabel = 'Lanjutkan Pertemuan 3 · Fase ' . ($p3Done + 1);
-                            }
-                        @endphp
-                        <a href="{{ $lanjutRoute }}"
-                           class="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition">
-                            {{ $lanjutLabel }} →
-                        </a>
-                    @endif
+                            <div class="mt-5">
+                                <div class="flex items-center justify-between text-xs text-green-200 mb-2">
+                                    <span>Progress Pembelajaran (3 Pertemuan)</span>
+                                    <span class="font-bold text-white">{{ $progressPct }}%</span>
+                                </div>
+                                <div class="h-2.5 bg-white/20 rounded-full overflow-hidden">
+                                    <div class="h-full bg-white rounded-full transition-all duration-700"
+                                         style="width: {{ $progressPct }}%"></div>
+                                </div>
+                            </div>
+
+                            <div class="mt-5">
+                                @if($totalDone >= 15)
+                                    <a href="{{ route('grade') }}"
+                                       class="inline-flex items-center gap-2 bg-white text-green-700 hover:bg-green-50 font-bold text-sm px-5 py-2.5 rounded-xl transition shadow-sm">
+                                        Lihat Hasil Belajar →
+                                    </a>
+                                @elseif($totalDone === 0)
+                                    <a href="{{ route('fase1') }}"
+                                       class="inline-flex items-center gap-2 bg-white text-green-700 hover:bg-green-50 font-bold text-sm px-5 py-2.5 rounded-xl transition shadow-sm">
+                                        Mulai Belajar →
+                                    </a>
+                                @else
+                                    @php
+                                        if (!$p2Unlocked) {
+                                            $lanjutRoute = route('fase' . ($p1Done + 1));
+                                            $lanjutLabel = 'Lanjutkan Pertemuan 1 · Fase ' . ($p1Done + 1);
+                                        } elseif (!$p3Unlocked) {
+                                            $lanjutRoute = route('p2.fase' . ($p2Done + 1));
+                                            $lanjutLabel = 'Lanjutkan Pertemuan 2 · Fase ' . ($p2Done + 1);
+                                        } else {
+                                            $lanjutRoute = route('p3.fase' . ($p3Done + 1));
+                                            $lanjutLabel = 'Lanjutkan Pertemuan 3 · Fase ' . ($p3Done + 1);
+                                        }
+                                    @endphp
+                                    <a href="{{ $lanjutRoute }}"
+                                       class="inline-flex items-center gap-2 bg-white text-green-700 hover:bg-green-50 font-bold text-sm px-5 py-2.5 rounded-xl transition shadow-sm">
+                                        {{ $lanjutLabel }} →
+                                    </a>
+                                @endif
+                            </div>
+                        </div>
+
+                        {{-- Progress Circle --}}
+                        <div class="shrink-0 text-center">
+                            <div class="relative inline-flex items-center justify-center w-24 h-24">
+                                <svg class="w-24 h-24 -rotate-90" viewBox="0 0 96 96">
+                                    <circle cx="48" cy="48" r="40" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="8"/>
+                                    <circle cx="48" cy="48" r="40" fill="none" stroke="white" stroke-width="8"
+                                            stroke-linecap="round"
+                                            stroke-dasharray="{{ round(2 * 3.14159 * 40) }}"
+                                            stroke-dashoffset="{{ round(2 * 3.14159 * 40 * (1 - $progressPct / 100)) }}"
+                                            style="transition: stroke-dashoffset 0.7s ease"/>
+                                </svg>
+                                <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                    <span class="text-2xl font-black text-white leading-none">{{ $progressPct }}%</span>
+                                    <span class="text-[10px] text-green-200 mt-0.5">{{ $totalDone }}/15</span>
+                                </div>
+                            </div>
+                            <p class="text-green-200 text-xs mt-2">Fase selesai</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
